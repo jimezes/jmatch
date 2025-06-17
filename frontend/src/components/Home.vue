@@ -1,28 +1,33 @@
 <template>
   <AppLayout title="Home">
-      {{ JSON.stringify(filteredJobs) }}
+        <SkillSelector @selected-skill="handleSelectedSkills"/>
 
-       <div v-if="error_message" style="color:red;" class="mt-3 text-center">
+         {{ JSON.stringify(filteredJobs) }}
+        <div v-if="error_message" style="color:red;" class="mt-3 text-center">
                   {{error_message}}
         </div>
         <div v-if="loading" class="mt-3 text-center">
             Loading...
         </div>
+
+
   </AppLayout>
 </template>
 
 <script>
 import axios from 'axios'
 import AppLayout from './layout/AppLayout.vue'
+import SkillSelector from './SkillSelector.vue';
 
 export default {
   name: 'Home',
-  components: { AppLayout },
+  components: { AppLayout,SkillSelector },
   props:{
-    skills:Array
+  
   },
   data() {
     return {
+        selectedSkills:undefined,
         filteredJobs:undefined
     }
   },
@@ -30,9 +35,9 @@ export default {
    async fetchJobsBySkills() {
     this.loading = true;
     try {
-        const response = await axios.post('/api/jobs/by_skill', [
-        "Java", "Spring Boot", "SQL"
-        ]);
+        const response = await axios.post('/api/jobs/by_skill', {
+           skills:this.selectedSkills
+        });
 
         const data = response.data;
         this.loading = false;
@@ -49,10 +54,15 @@ export default {
         this.error_message = "Failed to fetch jobs. Try again later.";
         console.error("Job fetch error:", error);
     }
+    },
+    handleSelectedSkills(skills){
+        console.log("received skills: "+JSON.stringify(skills));
+        this.selectedSkills = skills;
+        this.fetchJobsBySkills();
     }
   },
   mounted(){
-    this.fetchJobsBySkills();
+    //this.fetchJobsBySkills();
   }
 }
 </script>

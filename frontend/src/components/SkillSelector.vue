@@ -4,16 +4,16 @@
     <div v-if="loading">Loading skills...</div>
     <div v-else-if="error">{{ error }}</div>
     <div v-else>
-      <ul>
+      <ul class="skill-list">
         <li v-for="skill in skills" :key="skill">
-          <label>
+            <label>
             <input 
-              type="checkbox" 
-              :value="skill" 
-              v-model="selectedSkills" 
+                type="checkbox" 
+                :value="skill" 
+                v-model="selectedSkills" 
             />
             {{ skill }}
-          </label>
+            </label>
         </li>
       </ul>
     </div>
@@ -23,16 +23,13 @@
 <script>
 export default {
   props: {
-    initialSelected: {
-      type: Array,
-      default: () => [],
-    },
+   
   },
 
   data() {
     return {
       skills: [],
-      selectedSkills: this.initialSelected,
+      selectedSkills:[],
       loading: false,
       error: null,
     };
@@ -60,19 +57,31 @@ export default {
 
   watch: {
     selectedSkills(newVal) {
-      this.$emit('selected-skills', newVal);
+      this.$emit('selected-skill', newVal);
     },
   },
 };
 </script>
 
 <style scoped>
-ul {
-  list-style: none;
-  padding-left: 0;
-}
+    ul {
+        list-style: none;
+        padding-left: 0;
+    }
 
-li {
-  margin-bottom: 6px;
-}
+    li {
+        margin-bottom: 6px;
+    }
+
+    .skill-list {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr); /* 3 equal columns */
+        gap: 8px;
+        padding-left: 0;
+        list-style: none;
+    }
+
+    .skill-list li {
+        margin-bottom: 6px;
+    }
 </style>
