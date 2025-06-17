@@ -27,5 +27,7 @@
 </script>
 
 <style scoped>
-
+    .badge{
+        color:darkslategray;
+    }
 </style>

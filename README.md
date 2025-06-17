@@ -4,5 +4,19 @@
 
 A simple job matching Spring Boot web app. Users can register/login and search jobs according to a list of selected skills they input.
 
+## Technologies
 
-For production run: npm run build and copy the static files from inside the /dist folder into the /backend/src/main/resources/static folder
+- **Backend:** Java, Spring Boot, Spring Security, JWT, Maven
+- **Frontend:** Vue 3, Axios, Bootstrap
+
+
+### Prerequisites
+
+- Java 17+
+- Node.js + npm
+- Maven
+
+## How to run
+
+mvn clean install
+java -jar target/JMatch-1.0-SNAPSHOT.jar

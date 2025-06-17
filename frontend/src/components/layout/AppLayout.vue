@@ -12,7 +12,7 @@
             <a :href="link.url" class="nav-link">{{ link.text }}</a>
           </li>
         </ul>
-        <button v-if="token" class="btn btn-primary" @click="doLogout()">Logout</button>
+        <button style="margin-left:12px;" v-if="token" class="btn btn-primary" @click="doLogout()">Logout</button>
       </nav>
       <main class="col-md-9 col-lg-10 p-4">
         <slot></slot>
@@ -52,7 +52,12 @@ export default {
           }       
         }
         else{
-          results.push(current);
+          if(current.text == "Login" || current.text == "Register"){
+             if(this.token == undefined){
+                  results.push(current);
+             }
+          }
+         
         }
       }
       return results;
