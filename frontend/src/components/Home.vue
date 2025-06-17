@@ -40,9 +40,14 @@ export default {
    async fetchJobsBySkills() {
     this.loading = true;
     this.filteredJobs = [];
+    const token = localStorage.getItem("token");
     try {
         const response = await axios.post('/api/jobs/by_skill', {
            skills:this.selectedSkills
+        },{
+            headers: {
+            Authorization: `Bearer ${token}`
+            }
         });
 
         const data = response.data;

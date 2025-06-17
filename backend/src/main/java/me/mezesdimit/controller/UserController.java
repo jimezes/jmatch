@@ -1,5 +1,6 @@
 package me.mezesdimit.controller;
 
+import me.mezesdimit.additional.JwtGenerator;
 import me.mezesdimit.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,13 +13,15 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api")
 public class UserController {
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    @Autowired
+    private JwtGenerator jwtGenerator;
 
     public static class LoginRequest{
+
         public String email;
         public String password;
 
@@ -55,10 +58,16 @@ public class UserController {
     public static class AuthResponse {
         public int status;
         public String message;
+        public String token;
+
 
         public AuthResponse(int status, String message) {
             this.status = status;
             this.message = message;
+        }
+
+        public void setToken(String token) {
+            this.token = token;
         }
     }
 
@@ -67,18 +76,12 @@ public class UserController {
     }
 
     @GetMapping("/users")
-    public String allUser(){
+    public List<User> allUsers(){
         List<User> all = userRepository.findAll();
-        String debug = "";
-        Iterator<User> iterator = all.iterator();
-        while(iterator.hasNext()){
-            User next = iterator.next();
-            debug += next.toString();
-        }
-        return debug;
+        return all;
     }
 
-    @PostMapping("/login")
+    @PostMapping("/api/login")
     public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest request){
         if(!userRepository.findByEmail(request.email).isPresent()) {
             return ResponseEntity.ok().body(
@@ -92,14 +95,17 @@ public class UserController {
                         new AuthResponse(0,"Incorrect password.")
                 );
             } else {
+                String token = jwtGenerator.generateToken(user.getEmail());
+                AuthResponse authResponse = new AuthResponse(1,"Logged in successfully.");
+                authResponse.setToken(token);
                 return ResponseEntity.ok().body(
-                        new AuthResponse(1,"Logged in successfully.")
+                      authResponse
                 );
             }
         }
     }
 
-    @PostMapping("/register")
+    @PostMapping("/api/register")
     public ResponseEntity<AuthResponse> register(@RequestBody RegisterRequest request){
 
         if (!request.password.equals(request.passwordConfirm)) {
@@ -122,7 +128,11 @@ public class UserController {
 
         userRepository.save(newUser);
 
-        return ResponseEntity.ok(new AuthResponse(1, "User was created successfully"));
+        String token = jwtGenerator.generateToken(newUser.getEmail());
+        AuthResponse authResponse = new AuthResponse(1,"Logged in successfully.");
+        authResponse.setToken(token);
+
+        return ResponseEntity.ok(authResponse);
 
     }
 

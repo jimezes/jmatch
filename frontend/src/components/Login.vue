@@ -57,27 +57,26 @@ export default {
   },
 
   methods: {
-   async fetchJobsBySkills() {
+    async doLogin() {
       this.loading = true;
       try {
-        const response = await axios.post('/jobs/by_skill', [
-          "Java", "Spring Boot", "SQL"
-        ]);
-
-        const data = response.data;
+        const response = await axios.post('/api/login', {
+          email: this.email,
+          password: this.password
+        })
+        let data = response.data;
         this.loading = false;
+        //console.log(JSON.stringify(data));
         if(data.status == 1){
-           this.filteredJobs = data.jobs;
+          localStorage.setItem("token",data.token);
+          this.$router.push("/");
         }
         else{
           this.error_message = data.message;
         }
-       
-        
       } catch (error) {
-        this.loading = false;
-        this.error_message = "Failed to fetch jobs. Try again later.";
-        console.error("Job fetch error:", error);
+        this.message = 'Login failed. Make sure that you used the correct credentials.';
+        console.error(error)
       }
     }
   }

@@ -41,10 +41,15 @@ export default {
 
   methods: {
     async fetchSkills() {
+      const token = localStorage.getItem("token");
       this.loading = true;
       this.error = null;
       try {
-        const response = await fetch('/api/skills');
+        const response = await fetch('/api/skills', {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
         const data = await response.json();
         this.skills = data;
       } catch (err) {

@@ -104,7 +104,8 @@ export default {
         let data = response.data;
         this.loading = false;
         if(data.status == 1){
-          //handle successfull request
+          localStorage.setItem("token",data.token);
+          this.$router.push("/");
         }
         else{
           this.error_message = data.message;
