@@ -2,7 +2,9 @@
   <AppLayout title="Home">
         <SkillSelector @selected-skill="handleSelectedSkills"/>
 
-         {{ JSON.stringify(filteredJobs) }}
+         <div v-for="job in filteredJobs">
+            <Job :job="job"/>
+         </div>
         <div v-if="error_message" style="color:red;" class="mt-3 text-center">
                   {{error_message}}
         </div>
@@ -18,10 +20,11 @@
 import axios from 'axios'
 import AppLayout from './layout/AppLayout.vue'
 import SkillSelector from './SkillSelector.vue';
+import Job from './Job.vue';
 
 export default {
   name: 'Home',
-  components: { AppLayout,SkillSelector },
+  components: { AppLayout,SkillSelector,Job },
   props:{
   
   },
