@@ -1,10 +1,12 @@
 <template>
   <AppLayout title="Home">
         <SkillSelector @selected-skill="handleSelectedSkills"/>
-
-         <div v-for="job in filteredJobs">
-            <Job :job="job"/>
-         </div>
+        <div style="max-height:520px !important;height:520px !important;overflow-y:auto;">
+             <div  v-if="filteredJobs" v-for="job in filteredJobs">
+                <Job :job="job"/>
+            </div>
+        </div>
+        
         <div v-if="error_message" style="color:red;" class="mt-3 text-center">
                   {{error_message}}
         </div>
@@ -37,6 +39,7 @@ export default {
   methods: {
    async fetchJobsBySkills() {
     this.loading = true;
+    this.filteredJobs = [];
     try {
         const response = await axios.post('/api/jobs/by_skill', {
            skills:this.selectedSkills

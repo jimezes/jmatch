@@ -32,6 +32,7 @@ public class JobController {
                 if(skills.contains(skill)){
                     if(!jobsMatching.contains(next)){
                         jobsMatching.add(next);
+                        break;
                     }
 
                 }
