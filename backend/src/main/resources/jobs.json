@@ -1,0 +1,29 @@
+{
+  "jobs": [
+    {
+      "title": "Frontend Developer - React & TypeScript",
+      "description": "Develop dynamic user interfaces using React and TypeScript for a high-traffic web application.",
+      "skills": ["React", "TypeScript", "HTML5", "CSS3", "Webpack"]
+    },
+    {
+      "title": "Backend Developer - Node.js & MongoDB",
+      "description": "Build and maintain scalable backend services with Node.js and MongoDB in a microservices architecture.",
+      "skills": ["Node.js", "MongoDB", "Express.js", "Docker", "Redis"]
+    },
+    {
+      "title": "Full Stack Developer - Python & Vue.js",
+      "description": "Work on end-to-end features using Python for backend and Vue.js for frontend development.",
+      "skills": ["Python", "Flask", "Vue.js", "PostgreSQL", "Git"]
+    },
+    {
+      "title": "Web Developer - PHP & Laravel",
+      "description": "Maintain and enhance web applications using Laravel framework and modern PHP development tools.",
+      "skills": ["PHP", "Laravel", "MySQL", "Blade", "Composer"]
+    },
+    {
+      "title": "Frontend Engineer - Angular & Sass",
+      "description": "Design responsive UI components and ensure cross-browser compatibility using Angular and Sass.",
+      "skills": ["Angular", "Sass", "RxJS", "TypeScript", "Jasmine"]
+    }
+  ]
+}
