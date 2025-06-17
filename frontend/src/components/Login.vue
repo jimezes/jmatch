@@ -28,8 +28,11 @@
                   <button type="button" @click="doLogin" class="btn btn-primary">Log In</button>
                 </div>
               </form>
-              <div class="mt-3 text-center">
-                <a href="#">Forgot password?</a>
+              <div v-if="error_message" style="color:red;" class="mt-3 text-center">
+                  {{error_message}}
+              </div>
+              <div v-if="loading" class="mt-3 text-center">
+                  Loading...
               </div>
             </div>
          </div>
@@ -47,18 +50,29 @@ export default {
   data() {
     return {
       email: '',
-      password: ''
+      password: '',
+      error_message:undefined,
+      loading:false
     }
   },
 
   methods: {
     async doLogin() {
+      this.loading = true;
       try {
         const response = await axios.post('/api/login', {
           email: this.email,
           password: this.password
         })
-        let data = response.data
+        let data = response.data;
+        this.loading = false;
+        //console.log(JSON.stringify(data));
+        if(data.status == 1){
+          //handle successfull login
+        }
+        else{
+          this.error_message = data.message;
+        }
       } catch (error) {
         this.message = 'Login failed. Make sure that you used the correct credentials.';
         console.error(error)

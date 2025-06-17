@@ -59,8 +59,11 @@
                   <button type="button" @click="doRegister" class="btn btn-primary">Register</button>
                 </div>
               </form>
-              <div class="mt-3 text-center">
-                <a href="#">Forgot password?</a>
+              <div v-if="error_message" class="mt-3 text-center" style="color:red;">
+                  {{ error_message }}
+              </div>
+                <div v-if="loading" class="mt-3 text-center">
+                  Loading...
               </div>
             </div>
          </div>
@@ -81,12 +84,15 @@ export default {
       last_name:'',
       email: '',
       password: '',
-      password_confirm: ''
+      password_confirm: '',
+      error_message:undefined,
+      loading:false
     }
   },
 
   methods: {
     async doRegister() {
+      this.loading = true;
       try {
         const response = await axios.post('/api/register', {
           firstName: this.first_name,
@@ -95,7 +101,16 @@ export default {
           password: this.password,
           passwordConfirm: this.password_confirm
         })
-        let data = response.data
+        let data = response.data;
+        this.loading = false;
+        if(data.status == 1){
+          //handle successfull request
+        }
+        else{
+          this.error_message = data.message;
+        }
+        //console.log(JSON.stringify(data));
+
       } catch (error) {
         this.message = 'Registration failed. Make sure that you have filled all neccessary information.'
         console.error(error)
