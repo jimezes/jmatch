@@ -18,5 +18,5 @@ A simple job matching Spring Boot web app. Users can register/login and search j
 
 ## How to run
 
-mvn clean install
-java -jar target/JMatch-1.0-SNAPSHOT.jar
+- mvn clean install
+- java -jar target/JMatch-1.0-SNAPSHOT.jar
